@@ -100,8 +100,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Danh Mục Sản Phẩm</span>
                     </a>
                     <ul class="sub">
-						<li><a href="typography.html">Thêm Danh Mục</a></li>
-						<li><a href="glyphicon.html">Danh Sách Danh Mục</a></li>
+						<li><a href="{{ route('addCategory-Products') }}">Thêm Danh Mục Sản Phẩm</a></li>
+						<li><a href="{{ route('listCategories-Products') }}">Danh Sách Danh Mục Sản Phẩm</a></li>
                     </ul>
                 </li>
 
@@ -115,6 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<section class="wrapper">
         @yield('admin_contents')
     </section>
+    <div class="clearfix"></div>
  <!-- footer -->
 		  <div class="footer">
 			<div class="wthree-copyright">

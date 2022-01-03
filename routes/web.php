@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryProducts;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,21 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index']);
 
 //backend
+//dashboard
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/dashboard', [AdminController::class, 'ShowDashboard'])->name('dashboard');
 
+//login
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard'])->name('admin-dashboard');
 Route::get('/log-out', [AdminController::class, 'logout'])->name('logout');
+
+//category product
+Route::get('/add-category', [CategoryProducts::class, 'AddCategory'])->name('addCategory-Products');
+Route::get('/list-categories', [CategoryProducts::class, 'ListCategory'])->name('listCategories-Products');
+
+//save category product
+Route::post('/save-category-product', [CategoryProducts::class, 'SaveCategory'])->name('SaveCategoryProduct');
+
+//active status category product product
+Route::get('/unactived-status-category/{category_id}', [CategoryProducts::class, 'UnactiveCategory'])->name('unactived-status');
+Route::get('/actived-status-category/{category_id}', [CategoryProducts::class, 'ActiveCategory'])->name('actived-status');
