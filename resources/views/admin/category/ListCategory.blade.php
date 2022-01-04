@@ -51,7 +51,7 @@
           <tbody>
               @foreach ($listCategory as $item)
             <tr>
-              <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+              <td><label class="i-checks m-b-none"><input type="checkbox"><i></i></label></td>
               <td>{{$item->category_name}}</td>
               <td><span class="text-ellipsis">
 
@@ -64,7 +64,17 @@
               </span></td>
               <td>{{$item->category_desc}}</td>
               <td>
-                <a href="" style="font-size: 23phppx;" class="active" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>
+                <a href="{{ route('editCategory-Products', $item->category_id) }}" style="font-size: 20px;" class="active" ui-toggle-class="">
+
+                    <i class="fa fa-pencil-square-o text-success text-active"></i>
+
+                </a>
+
+                <a href="{{route('deleteCategory-Products', $item->category_id)}}" onclick="return confirm('Bạn Có Muốn Xóa Không?')" style="font-size: 20px;" class="active" ui-toggle-class="">
+
+                    <i class="fa fa-times text-danger text"></i>
+
+                </a>
               </td>
             </tr>
             @endforeach

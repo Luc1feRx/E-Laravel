@@ -31,9 +31,17 @@ Route::get('/log-out', [AdminController::class, 'logout'])->name('logout');
 //category product
 Route::get('/add-category', [CategoryProducts::class, 'AddCategory'])->name('addCategory-Products');
 Route::get('/list-categories', [CategoryProducts::class, 'ListCategory'])->name('listCategories-Products');
+Route::get('/delete-category/{category_id}', [CategoryProducts::class, 'deleteCategory'])->name('deleteCategory-Products');
+Route::get('/edit-category/{category_id}', [CategoryProducts::class, 'editCategory'])->name('editCategory-Products');
+
+
 
 //save category product
 Route::post('/save-category-product', [CategoryProducts::class, 'SaveCategory'])->name('SaveCategoryProduct');
+//update category product
+Route::post('/update-category-product/{category_id}', [CategoryProducts::class, 'updateCategory'])->name('updateCategoryProduct');
+
+
 
 //active status category product product
 Route::get('/unactived-status-category/{category_id}', [CategoryProducts::class, 'UnactiveCategory'])->name('unactived-status');
