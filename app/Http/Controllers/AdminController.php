@@ -13,8 +13,17 @@ class AdminController extends Controller
     public function index(){
         return view('admin_login');
     }
+    public function AuthLogin(){
+        $admin_id = session::get('admin_id');
+        if($admin_id){
+            return redirect()->route('dashboard');
+        }else{
+            return redirect()->route('admin-login')->send();
+        }
+    }
     //dashboard
     public function ShowDashboard(){
+        $this->AuthLogin();
         return view('admin.dashboard');
     }
 
@@ -27,7 +36,7 @@ class AdminController extends Controller
         if($result){
             $request->session()->put('admin_name', $result->admin_name);
             $request->session()->put('admin_id', $result->admin_id);
-            return Redirect::to('/dashboard');
+            return redirect()->route('dashboard');
         }else{
             $request->session()->put('message', '<div class="alert alert-danger" style="font-size: 16px; text-align: center;">Mật khẩu hoặc tài khoản bị sai!!!</div>');
             return Redirect::to('/admin');
@@ -37,6 +46,7 @@ class AdminController extends Controller
 
     //dang xuat
     public function logout(Request $request){
+        $this->AuthLogin();
         $request->session()->put('admin_name', null);
         $request->session()->put('admin_id', null);
         return Redirect::to('/admin');

@@ -3,7 +3,7 @@
 <div class="table-agile-info">
     <div class="panel panel-default">
       <div class="panel-heading">
-        Danh Sách Danh Mục Sản Phẩm
+        Danh Sách Sản Phẩm
       </div>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
@@ -42,43 +42,51 @@
                   <input type="checkbox"><i></i>
                 </label>
               </th>
-              <th>Tên Danh Mục</th>
+              <th>Tên Sản Phẩm</th>
+              <th>Giá</th>
+              <th>Hình Ảnh</th>
+              <th>Danh Mục</th>
+              <th>Thương Hiệu</th>
               <th>Hiển Thị</th>
-              <th>Mô Tả</th>
               <th style="width:30px;"></th>
             </tr>
           </thead>
           <tbody>
-              @foreach ($listCategory as $item)
+            @foreach ($listProduct as $item)
             <tr>
               <td><label class="i-checks m-b-none"><input type="checkbox"><i></i></label></td>
+              <td>{{$item->product_name}}</td>
+              <td>{{$item->product_price}}</td>
+              <td><img src="public/upload/product/{{$item->product_image}}" alt="" height="100px" width="100px"></td>
               <td>{{$item->category_name}}</td>
+
+              <td>{{$item->brand_name}}</td>
               <td><span class="text-ellipsis">
 
-                @if ($item->category_status == 1)
-                    <a href="{{route('unactived-status-category', $item->category_id)}}"><span><i style="font-size: 23px; color: green;" class="fa fa-thumbs-up"></i></span></a>
+                @if ($item->product_status == 1)
+                    <a href="{{route('unactived-status-product', $item->product_id)}}"><span><i style="font-size: 23px; color: green;" class="fa fa-thumbs-up"></i></span></a>
                 @else
-                    <a href="{{route('actived-status-category', $item->category_id)}}"><span><i style="font-size: 23px; color: red;" class="fa fa-thumbs-down"></i></span></a>
+                    <a href="{{route('actived-status-product', $item->product_id)}}"><span><i style="font-size: 23px; color: red;" class="fa fa-thumbs-down"></i></span></a>
                 @endif
 
               </span></td>
-              <td>{{$item->category_desc}}</td>
               <td>
-                <a href="{{ route('editCategory-Products', $item->category_id) }}" style="font-size: 20px;" class="active" ui-toggle-class="">
+                <a href="{{ route('editProduct', $item->product_id) }}" style="font-size: 20px;" class="active" ui-toggle-class="">
 
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
 
                 </a>
 
-                <a href="{{route('deleteCategory-Products', $item->category_id)}}" onclick="return confirm('Bạn Có Muốn Xóa Không?')" style="font-size: 20px;" class="active" ui-toggle-class="">
+                <a href="{{route('deleteProduct', $item->product_id)}}" onclick="return confirm('Bạn Có Muốn Xóa Không?')" style="font-size: 20px;" class="active" ui-toggle-class="">
 
                     <i class="fa fa-times text-danger text"></i>
 
                 </a>
               </td>
             </tr>
-            @endforeach
+
           </tbody>
+          @endforeach
         </table>
       </div>
       <footer class="panel-footer">

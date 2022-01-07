@@ -3,7 +3,7 @@
 <div class="table-agile-info">
     <div class="panel panel-default">
       <div class="panel-heading">
-        Danh Sách Danh Mục Sản Phẩm
+        Danh Sách Thương Hiệu Sản Phẩm
       </div>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
@@ -49,28 +49,28 @@
             </tr>
           </thead>
           <tbody>
-              @foreach ($listCategory as $item)
+              @foreach ($listbrand as $item)
             <tr>
               <td><label class="i-checks m-b-none"><input type="checkbox"><i></i></label></td>
-              <td>{{$item->category_name}}</td>
+              <td>{{$item->brand_name}}</td>
               <td><span class="text-ellipsis">
 
-                @if ($item->category_status == 1)
-                    <a href="{{route('unactived-status-category', $item->category_id)}}"><span><i style="font-size: 23px; color: green;" class="fa fa-thumbs-up"></i></span></a>
+                @if ($item->brand_status == 1)
+                    <a href="{{route('unactived-status-brand', $item->brand_id)}}"><span><i style="font-size: 23px; color: green;" class="fa fa-thumbs-up"></i></span></a>
                 @else
-                    <a href="{{route('actived-status-category', $item->category_id)}}"><span><i style="font-size: 23px; color: red;" class="fa fa-thumbs-down"></i></span></a>
+                    <a href="{{route('actived-status-brand', $item->brand_id)}}"><span><i style="font-size: 23px; color: red;" class="fa fa-thumbs-down"></i></span></a>
                 @endif
 
               </span></td>
-              <td>{{$item->category_desc}}</td>
+              <td>{{$item->brand_desc}}</td>
               <td>
-                <a href="{{ route('editCategory-Products', $item->category_id) }}" style="font-size: 20px;" class="active" ui-toggle-class="">
+                <a href="{{ route('editBrand', $item->brand_id) }}" style="font-size: 20px;" class="active" ui-toggle-class="">
 
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
 
                 </a>
 
-                <a href="{{route('deleteCategory-Products', $item->category_id)}}" onclick="return confirm('Bạn Có Muốn Xóa Không?')" style="font-size: 20px;" class="active" ui-toggle-class="">
+                <a href="{{route('deleteBrand', $item->brand_id)}}" onclick="return confirm('Bạn Có Muốn Xóa Không?')" style="font-size: 20px;" class="active" ui-toggle-class="">
 
                     <i class="fa fa-times text-danger text"></i>
 
