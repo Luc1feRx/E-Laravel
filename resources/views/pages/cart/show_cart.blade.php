@@ -138,7 +138,19 @@
                         <li>Phí Vận Chuyển <span>Free</span></li>
                         <li>Thành Tiền<span>{{Cart::total(0, ',', '.') . ' VND'}}</span></li>
                     </ul>
-                        <a class="btn btn-default check_out" href="{{ route('login-checkout') }}">Thanh Toán</a>
+                    <?php
+                    $customer_id = Session::get('customer_id');
+                    if ($customer_id != null) {
+                ?>
+                <a style="text-decoration: none; margin-right: 10px" href="{{ route('checkout') }}" class="btn btn-default check_out"> Thanh Toán</a>
+                <?php
+                    } else {
+
+                ?>
+                <a style="text-decoration: none; margin-right: 10px" href="{{ route('login-checkout') }}" class="btn btn-default check_out"> Thanh Toán</a>
+                <?php
+                    }
+                ?>
                 </div>
             </div>
         </div>

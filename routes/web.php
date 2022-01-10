@@ -25,11 +25,11 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('home')->group(function () {
     //category
-    Route::get('/categories-product/{category_id}', [CategoryProducts::class, 'ShowCategoryHome'])->name('category_home');
+    Route::get('/categories-product/{category_id}/{slug_category}', [CategoryProducts::class, 'ShowCategoryHome'])->name('category_home');
     //brand
-    Route::get('/brands-product/{brand_id}', [BrandProducts::class, 'ShowBrandHome'])->name('brand_home');
+    Route::get('/brands-product/{brand_id}/{slug_brand}', [BrandProducts::class, 'ShowBrandHome'])->name('brand_home');
     //product detail
-    Route::get('/product-detail/{product_id}', [ProductController::class, 'ShowProductDetail'])->name('ProductDetail');
+    Route::get('/product-detail/{product_id}/{slug_product_detail}', [ProductController::class, 'ShowProductDetail'])->name('ProductDetail');
     //cart
     Route::post('/save-cart', [CartController::class, 'Save_Cart'])->name('save-cart');
     Route::get('/show-cart', [CartController::class, 'show_cart'])->name('show-cart');
@@ -40,6 +40,15 @@ Route::prefix('home')->group(function () {
     Route::get('/login-checkout', [CheckoutController::class, 'Login_Checkout'])->name('login-checkout');
     Route::post('/add-customer', [CheckoutController::class, 'add_customer'])->name('add-customer');
     Route::get('/checkout', [CheckoutController::class, 'Checkout'])->name('checkout');
+
+    Route::post('/save-checkout-customer', [CheckoutController::class, 'saveCheckoutCustomer'])->name('save-checkout-customer');
+    Route::get('/logout-checkout', [CheckoutController::class, 'logoutCheckout'])->name('logout-checkout');
+
+    Route::post('/login-customer', [CheckoutController::class, 'LoginCustomer'])->name('login-customer');
+    Route::post('/order-place', [CheckoutController::class, 'OrderPlace'])->name('order-place');
+    Route::get('/payment', [CheckoutController::class, 'payment'])->name('payment');
+    //seach
+    Route::get('/search', [HomeController::class, 'Search'])->name('search-product');
 });
 
 
@@ -115,8 +124,14 @@ Route::prefix('admin')->group(function () {
     //active status product
     Route::get('/unactived-status-product/{product_id}', [ProductController::class, 'UnactiveProduct'])->name('unactived-status-product');
     Route::get('/actived-status-product/{product_id}', [ProductController::class, 'ActiveProduct'])->name('actived-status-product');
+
+    //order
+    Route::get('/manage-order', [CheckoutController::class, 'ManageOrder'])->name('manage-order');
+    Route::get('/view-order/{order_id}', [CheckoutController::class, 'ViewOrder'])->name('view-order');
+    Route::get('/delete-order/{order_id}', [CheckoutController::class, 'DeleteOrder'])->name('delete-order');
 });
 
 
 Route::get('/edit-product/{product_id}', [ProductController::class, 'editProduct'])->name('editProduct');
 Route::get('/list-product', [ProductController::class, 'ListProduct'])->name('listProduct');
+

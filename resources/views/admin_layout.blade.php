@@ -127,6 +127,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </ul>
                 </li>
 
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Đặt Hàng</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{ route('manage-order') }}">Quản Lý Đơn Đặt Hàng</a></li>
+                    </ul>
+                </li>
+
             </ul>            </div>
         <!-- sidebar menu end-->
     </div>
@@ -155,7 +165,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src=""></script><![endif]-->
 <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
+<script src="{{asset('public/backend/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('public/backend/js/jqueryform-validator.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.2-dev/css/formValidation.min.css"></script>
 <!-- morris JavaScript -->
+
+
+<script type="text/javascript">
+    CKEDITOR.replace('ckeditor');
+    CKEDITOR.replace('ckeditor1');
+    CKEDITOR.replace('ckeditor2');
+    CKEDITOR.replace('ckeditor3');
+</script>
+
 <script>
 	$(document).ready(function() {
 		//BOX BUTTON SHOW AND CLOSE

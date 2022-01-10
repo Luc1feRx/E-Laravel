@@ -20,7 +20,16 @@
                                 {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="name_category">Tên Sản Phẩm: </label>
-                                <input type="text" class="form-control" name="product_name" id="name_category" placeholder="Nhập Tên Danh Mục">
+                                <input type="text" data-validation="length" data-validation-length="min3" data-validation-error-msg="Làm Ơn Điền Ít Nhất 3 Ký Tự" class="form-control" name="product_name" id="name_category" placeholder="Nhập Tên Danh Mục">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="form-group">
@@ -35,12 +44,12 @@
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô Tả Sản Phẩm</label>
-                                <textarea class="form-control" name="product_desc" type="text" id="exampleInputPassword1" placeholder="Nhập Mô Tả Danh Mục" style="resize: none" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" name="product_desc" type="text" id="ckeditor1" placeholder="Nhập Mô Tả Danh Mục" style="resize: none" cols="30" rows="10"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nội Dung Sản Phẩm</label>
-                                <textarea class="form-control" name="product_content" type="text" id="exampleInputPassword1" placeholder="Nhập Nội Dung Danh Mục" style="resize: none" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" name="product_content" type="text" id="ckeditor" placeholder="Nhập Nội Dung Danh Mục" style="resize: none" cols="30" rows="10"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword2">Danh Mục Sản Phẩm</label>

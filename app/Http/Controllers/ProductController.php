@@ -53,6 +53,9 @@ class ProductController extends Controller
 
     public function SaveProduct(Request $request){
         $this->AuthLogin();
+        $request->validate([
+            'product_name'=>'required'
+        ]);
         $data = array();
         $data['product_name'] = $request->product_name;
         $data['product_price'] = $request->product_price;

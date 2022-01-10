@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home | E-Shopper</title>
+    <meta name="keywords" >
+    <meta name="robots" content="INDEX, FOLLOW">
+
+    <title>Home</title>
     <link href="{{asset('public/frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/frontend/css/prettyPhoto.css')}}" rel="stylesheet">
@@ -86,11 +89,33 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="{{ route('login-checkout') }}"><i class="fa fa-user"></i> Tài Khoản</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> Yêu Thích</a></li>
-								{{-- <li><a href="{{ route('checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán</a></li> --}}
 								<li><a href="{{ route('show-cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a></li>
-								<li><a href="{{ route('login-checkout') }}"><i class="fa fa-lock"></i> Đăng Nhập</a></li>
+
+                                <?php
+                                    $customer_id = Session::get('customer_id');
+                                    $shipping_id = Session::get('shipping_id');
+                                    if ($customer_id != NULL && $shipping_id == NULL) {
+                                ?>
+                                <li><a href="{{ route('checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán</a></li>
+                                <li><a href="{{ route('logout-checkout') }}"><i class="fa fa-lock"></i> Đăng Xuất</a></li>
+                                <?php
+                                    } else if($customer_id != NULL && $shipping_id != NULL) {
+
+                                ?>
+                                <li><a href="{{ route('payment') }}"><i class="fa fa-crosshairs"></i> Thanh Toán</a></li>
+                                <li><a href="{{ route('logout-checkout') }}"><i class="fa fa-lock"></i> Đăng Xuất</a></li>
+                                <?php
+                                    }else{
+
+                                ?>
+                                <li><a href="{{ route('login-checkout') }}"><i class="fa fa-crosshairs"></i> Thanh Toán</a></li>
+                                <li><a href="{{ route('login-checkout') }}"><i class="fa fa-lock"></i> Đăng Nhập</a></li>
+                                <?php
+                                    }
+                                ?>
+
+
 							</ul>
 						</div>
 					</div>
@@ -120,14 +145,16 @@
                                     </ul>
                                 </li>
 								<li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a></li>
-								<li><a href="404.html">Giỏ Hàng</a></li>
+								<li><a href="{{ route('show-cart') }}">Giỏ Hàng</a></li>
 								<li><a href="contact-us.html">Contact</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+                            <form action="{{ route('search-product') }}" method="get">
+							    <input type="text" name="keyword_submit" placeholder="Tìm Kiếm"/>
+                            </form>
 						</div>
 					</div>
 				</div>
@@ -210,7 +237,7 @@
                             @foreach ($categories as $cate)
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="{{ route('category_home', ['category_id'=>$cate->category_id]) }}">{{$cate->category_name}}</a></h4>
+									<h4 class="panel-title"><a href="{{ route('category_home', ['category_id'=>$cate->category_id, 'slug_category'=>Str::slug($cate->category_name)]) }}">{{$cate->category_name}}</a></h4>
 								</div>
 							</div>
                             @endforeach
@@ -221,7 +248,7 @@
                             @foreach ($brands as $brand)
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="{{ route('brand_home', ['brand_id'=>$brand->brand_id]) }}"> <span class="pull-right">(50)</span>{{$brand->brand_name}}</a></li>
+									<li><a href="{{ route('brand_home', ['brand_id'=>$brand->brand_id, 'slug_brand'=>Str::slug($brand->brand_name)]) }}"> <span class="pull-right">(50)</span>{{$brand->brand_name}}</a></li>
 								</ul>
 							</div>
                             @endforeach

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,14 +14,12 @@ class CartController extends Controller
 {
     public function Save_Cart(Request $request){
 
-        $productid_hidden = $request->productid_hidden;
-        $quantity = $request->qty;
+        $data = $request->all();
 
-        $product_infor = DB::table('tbl_product')->where('product_id', $productid_hidden)->first();
+        $product_infor = Product::where('product_id', $data['productid_hidden'])->first();
 
-        // Cart::add('293ad', 'Product 1', 1, 9.99, 550);
         $data['id'] = $product_infor->product_id;
-        $data['qty'] = $quantity;
+        $data['qty'] = $data['qty'];
         $data['name'] = $product_infor->product_name;
         $data['price'] = $product_infor->product_price;
         $data['weight'] = '123';

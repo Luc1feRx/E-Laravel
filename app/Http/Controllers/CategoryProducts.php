@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -25,7 +26,7 @@ class CategoryProducts extends Controller
 
     public function editCategory($category_id){
         $this->AuthLogin();
-        $editCategory = DB::table('tbl_category_products')->where('category_id', $category_id)->get();
+        $editCategory = Category::where('category_id', $category_id)->get();
         return view('admin.category.editCategory', compact('editCategory', $editCategory));
 
         // return redirect()->route('updateCategory-Products', $category_id)->with('editCategory', $editCategory);
@@ -34,7 +35,7 @@ class CategoryProducts extends Controller
 
     public function deleteCategory($category_id, Request $request){
         $this->AuthLogin();
-        DB::table('tbl_category_products')->where('category_id', $category_id)->delete();
+        Category::where('category_id', $category_id)->delete();
         $message = '<div class="alert alert-success" style="font-size: 16px; text-align: center;">Xóa Danh Mục Sản Phẩm Thành Công!</div>';
         $request->session()->put('message', $message);
         return redirect()->route('listCategories-Products');
@@ -48,16 +49,17 @@ class CategoryProducts extends Controller
 
     public function SaveCategory(Request $request){
         $this->AuthLogin();
-        $data = array();
-        $data['category_name'] = $request->name_category_product;
-        $data['category_desc'] = $request->des_category_product;
-        $data['category_status'] = $request->status_category_product;
-        // $data['category_price'] =
+        $data = $request->all();
+        $cate = new Category();
+        $cate->category_name = $data['name_category_product'];
+        $cate->category_desc = $data['des_category_product'];
+        $cate->category_status = $data['status_category_product'];
+
         $message = '<div class="alert alert-success" style="font-size: 16px; text-align: center;">Thêm Danh Mục Sản Phẩm Thành Công!</div>';
 
-        DB::table('tbl_category_products')->insert($data);
+        $cate->save();
         $request->session()->put('message', $message);
-        return Redirect::to('/add-category');
+        return redirect()->route('addCategory-Products');
     }
 
     public function updateCategory(Request $request, $category_id){
@@ -65,6 +67,7 @@ class CategoryProducts extends Controller
         $data = array();
         $data['category_name'] = $request->name_category_product;
         $data['category_desc'] = $request->des_category_product;
+        $data['slug_category'] = $request->slug_category;
         $message = '<div class="alert alert-success" style="font-size: 16px; text-align: center;">Cập Nhật Danh Mục Sản Phẩm Thành Công!</div>';
 
         DB::table('tbl_category_products')->where('category_id', $category_id)->update($data);
@@ -90,7 +93,7 @@ class CategoryProducts extends Controller
     //end admin page
 
     //start home page
-    public function ShowCategoryHome($category_id, Request $request){
+    public function ShowCategoryHome($category_id){
         $cate_products = DB::table('tbl_category_products')->where('category_status', '1')->orderBy('category_id', 'desc')->get();
         $brand_products = DB::table('tbl_brand')->where('brand_status', '1')->orderBy('brand_id', 'desc')->get();
 

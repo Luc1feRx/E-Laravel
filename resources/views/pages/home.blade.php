@@ -3,7 +3,7 @@
 <div class="features_items"><!--features_items-->
     <h2 class="title text-center">Sản Phẩm Mới Nhất</h2>
     @foreach ($products as $product)
-    <a href="{{ route('ProductDetail', ['product_id'=>$product->product_id]) }}">
+    <a href="{{ route('ProductDetail', ['product_id'=>$product->product_id, 'slug_product_detail'=>Str::slug($product->product_name)]) }}">
     <div class="col-sm-4">
         <div class="product-image-wrapper">
             <div class="single-products">

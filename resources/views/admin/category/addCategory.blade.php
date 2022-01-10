@@ -24,7 +24,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô Tả Danh Mục</label>
-                                <textarea class="form-control" name="des_category_product" type="text" id="exampleInputPassword1" placeholder="Nhập Mô Tả Danh Mục" style="resize: none" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" name="des_category_product" type="text" placeholder="Nhập Mô Tả Danh Mục" style="resize: none" cols="30" rows="10"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="name_category">Slug: </label>
+                                <input type="text" class="form-control" name="slug_category" id="name_category">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword2">Hiển Thị</label>

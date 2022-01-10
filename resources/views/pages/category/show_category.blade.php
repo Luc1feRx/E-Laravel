@@ -5,7 +5,7 @@
     <h2 class="title text-center">{{$cateName->category_name}}</h2>
     @endforeach
     @foreach ($category_by_id as $product)
-    <a href="{{ route('ProductDetail', ['product_id'=>$product->product_id]) }}"></a>
+    <a href="{{ route('ProductDetail', ['product_id'=>$product->product_id, 'slug_product_detail'=>Str::slug($product->product_name)]) }}"></a>
     <div class="col-sm-4">
         <div class="product-image-wrapper">
             <div class="single-products">

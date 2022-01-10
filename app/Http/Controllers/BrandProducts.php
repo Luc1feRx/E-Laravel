@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -24,7 +25,8 @@ class BrandProducts extends Controller
     }
     public function editBrand($brand_id){
         $this->AuthLogin();
-        $editbrand = DB::table('tbl_brand')->where('brand_id', $brand_id)->get();
+        // $editbrand = DB::table('tbl_brand')->where('brand_id', $brand_id)->get();
+        $editbrand = Brand::find($brand_id);
         return view('admin.brand.editbrand', compact('editbrand', $editbrand));
 
         // return redirect()->route('updatebrand-Products', $brand_id)->with('editbrand', $editbrand);
@@ -41,33 +43,39 @@ class BrandProducts extends Controller
 
     public function Listbrand(){
         $this->AuthLogin();
-        $listbrand = DB::table('tbl_brand')->get();
+        $listbrand = Brand::orderBy('brand_id', 'desc')->get();
         return view('admin.brand.listbrand', compact('listbrand', $listbrand));
     }
 
     public function SaveBrand(Request $request){
         $this->AuthLogin();
-        $data = array();
-        $data['brand_name'] = $request->name_brand_product;
-        $data['brand_desc'] = $request->des_brand_product;
-        $data['brand_status'] = $request->status_brand_product;
-        $data['created_at'] = date('Y-m-d H:i:s');
+        $data = $request->all();
+        $brand = new Brand();
+        $brand->brand_name = $data['name_brand_product'];
+        $brand->brand_desc = $data['des_brand_product'];
+        $brand->brand_status = $data['status_brand_product'];
+        $brand->save();
+        // $data = array();
+        // $data['brand_name'] = $request->name_brand_product;
+        // $data['brand_desc'] = $request->des_brand_product;
+        // $data['brand_status'] = $request->status_brand_product;
+        // $data['created_at'] = date('Y-m-d H:i:s');
         // $data['brand_price'] =
         $message = '<div class="alert alert-success" style="font-size: 16px; text-align: center;">Thêm Thương Hiệu Sản Phẩm Thành Công!</div>';
 
-        DB::table('tbl_brand')->insert($data);
+        // DB::table('tbl_brand')->insert($data);
         $request->session()->put('message', $message);
-        return Redirect::to('/add-brand');
+        return redirect()->route('addBrand');
     }
 
     public function updateBrand(Request $request, $brand_id){
         $this->AuthLogin();
-        $data = array();
-        $data['brand_name'] = $request->name_brand_product;
-        $data['brand_desc'] = $request->des_brand_product;
+        $data = $request->all();
+        $brand = Brand::find($brand_id);
+        $brand->brand_name = $data['name_brand_product'];
+        $brand->brand_desc = $data['des_brand_product'];
+        $brand->save();
         $message = '<div class="alert alert-success" style="font-size: 16px; text-align: center;">Cập Nhật Thương Hiệu Sản Phẩm Thành Công!</div>';
-
-        DB::table('tbl_brand')->where('brand_id', $brand_id)->update($data);
         $request->session()->put('message', $message);
         return redirect()->route('editBrand', $brand_id);
     }

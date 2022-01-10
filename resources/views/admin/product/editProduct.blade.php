@@ -38,12 +38,12 @@
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô Tả Sản Phẩm</label>
-                                <textarea class="form-control" name="product_desc" type="text" id="exampleInputPassword1" style="resize: none" cols="30" rows="10">{{$item->product_desc}}</textarea>
+                                <textarea class="form-control" name="product_desc" type="text" id="ckeditor2" style="resize: none" cols="30" rows="10">{{$item->product_desc}}</textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nội Dung Sản Phẩm</label>
-                                <textarea class="form-control" name="product_content" type="text" id="exampleInputPassword1" style="resize: none" cols="30" rows="10">{{$item->product_content}}</textarea>
+                                <textarea class="form-control" name="product_content" type="text" id="ckeditor3" style="resize: none" cols="30" rows="10">{{$item->product_content}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword2">Danh Mục Sản Phẩm</label>
