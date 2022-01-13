@@ -36,6 +36,13 @@ Route::prefix('home')->group(function () {
     Route::get('/delete-cart{IdDelete}', [CartController::class, 'delete_cart'])->name('delete-cart');
     Route::post('/update-cart', [CartController::class, 'Update_Cart'])->name('update-cart-qty');
 
+    //cart ajax
+    Route::post('/add-cart-ajax', [CartController::class, 'AddToCart'])->name('add-cart-ajax');
+    Route::get('/show-cart-2', [CartController::class, 'ShowCartAjax'])->name('show-cart-ajax');
+    Route::post('/update-cart-ajax', [CartController::class, 'UpdateCartAjax'])->name('update-cart');
+    Route::get('/delete-cart-ajax/{iddelete}', [CartController::class, 'DeleteCartAjax'])->name('delete-cart-ajax');
+
+
     //Checkout
     Route::get('/login-checkout', [CheckoutController::class, 'Login_Checkout'])->name('login-checkout');
     Route::post('/add-customer', [CheckoutController::class, 'add_customer'])->name('add-customer');
@@ -49,6 +56,9 @@ Route::prefix('home')->group(function () {
     Route::get('/payment', [CheckoutController::class, 'payment'])->name('payment');
     //seach
     Route::get('/search', [HomeController::class, 'Search'])->name('search-product');
+
+    //send mail
+    Route::get('/send-mail', [HomeController::class, 'SendMail'])->name('send-mail');
 });
 
 

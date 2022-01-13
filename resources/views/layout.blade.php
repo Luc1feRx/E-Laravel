@@ -16,6 +16,7 @@
     <link href="{{asset('public/frontend/css/animate.css')}}" rel="stylesheet">
 	<link href="{{asset('public/frontend/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('public/frontend/css/responsive.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/sweetalert.css') }}">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -90,7 +91,11 @@
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-star"></i> Yêu Thích</a></li>
-								<li><a href="{{ route('show-cart') }}"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a></li>
+								@if (session()->get('cart') == true)
+                                    <li><a href="{{ route('show-cart-ajax') }}"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a></li>
+                                @else
+
+                                @endif
 
                                 <?php
                                     $customer_id = Session::get('customer_id');
@@ -145,7 +150,7 @@
                                     </ul>
                                 </li>
 								<li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a></li>
-								<li><a href="{{ route('show-cart') }}">Giỏ Hàng</a></li>
+								<li><a href="{{ route('show-cart-ajax') }}">Giỏ Hàng</a></li>
 								<li><a href="contact-us.html">Contact</a></li>
 							</ul>
 						</div>
@@ -184,31 +189,6 @@
 								<div class="col-sm-6">
 									<img src="{{asset('public/frontend/images/girl1.jpg')}}" class="girl img-responsive" alt="" />
 									<img src="{{asset('public/frontend/images/pricing.png')}}"  class="pricing" alt="" />
-								</div>
-							</div>
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>100% Responsive Design</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{asset('public/frontend/images/girl2.jpg')}}" class="girl img-responsive" alt="" />
-									<img src="{{asset('public/frontend/images/pricing.png')}}"  class="pricing" alt="" />
-								</div>
-							</div>
-
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free Ecommerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{asset('public/frontend/images/girl3.jpg')}}" class="girl img-responsive" alt="" />
-									<img src="{{asset('public/frontend/images/pricing.png')}}" class="pricing" alt="" />
 								</div>
 							</div>
 
@@ -431,7 +411,6 @@
 				</div>
 			</div>
 		</div>
-
 	</footer><!--/Footer-->
 
 
@@ -442,5 +421,58 @@
 	<script src="{{asset('public/frontend/js/price-range.js')}}"></script>
     <script src="{{asset('public/frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/frontend/js/main.js')}}"></script>
+    <script src="{{asset('public/frontend/js/sweetalert.js')}}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.add-to-cart').click(function(){
+                var id = $(this).data('id_product');
+                var cart_product_id = $('.cart_product_id_' + id).val();
+                var cart_product_name = $('.cart_product_name_' + id).val();
+                var cart_product_image = $('.cart_product_image_' + id).val();
+                var cart_product_price = $('.cart_product_price_' + id).val();
+                var cart_product_qty = $('.cart_product_qty_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{ route('add-cart-ajax') }}',
+                    method: 'POST',
+                    data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token},
+                    success:function(){
+
+                        const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                        })
+
+                        swalWithBootstrapButtons.fire({
+                        title: "Đã thêm sản phẩm vào giỏ hàng",
+                        text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+                        showCancelButton: true,
+                        cancelButtonText: "Xem tiếp",
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "Đi đến giỏ hàng",
+                        closeOnConfirm: false
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ route('show-cart-ajax') }}";
+                        } else if (
+                            /* Read more about handling dismissals below */
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            return;
+                        }
+                        })
+
+                    }
+
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>

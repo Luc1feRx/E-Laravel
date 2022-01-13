@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 session_start();
@@ -28,6 +29,15 @@ class HomeController extends Controller
 
         return view('pages.home')->with('categories', $cate_products)->with('brands', $brand_products)->with('products', $listProduct)
         ->with('meta_desc', $meta_desc)->with('meta_keyword', $meta_keyword)->with('url_canonical', $url_canonical);
+    }
+
+    public function SendMail(){
+        $name = 'vu to qua';
+
+        Mail::send('pages.mail.send_mail', compact('name'), function ($message) {
+            $message->to('clgtqwe1@gmail.com', 'John Doe');
+        });
+
     }
 
     public function Search(Request $request) {

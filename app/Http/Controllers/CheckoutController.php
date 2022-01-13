@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use App\Rules\Captcha;
+use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Session;
@@ -30,6 +33,14 @@ class CheckoutController extends Controller
 
     public function add_customer(Request $request){
 
+        $request->validate([
+            'customer_name' => 'required',
+            'customer_email' => 'required',
+            'customer_password' => 'required',
+            'customer_phone' => 'required',
+           'g-recaptcha-response' => new Captcha(), 		//dòng kiểm tra Captcha
+        ]);
+
         $data = array();
         $data['customer_name'] = $request->customer_name;
         $data['customer_email'] = $request->customer_email;
@@ -40,7 +51,7 @@ class CheckoutController extends Controller
         $request->session()->put('customer_id', $customer_id);
         $request->session()->put('customer_name', $request->customer_name);
 
-        return redirect()->route('checkout');
+        return redirect()->route('checkout')->with('message', 'Đăng ký tài khoản thành công,làm ơn đăng nhập');
     }
 
     public function Checkout(){
@@ -131,17 +142,13 @@ class CheckoutController extends Controller
     public function LoginCustomer(Request $request){
         $email_account = $request->email_account;
         $password = md5($request->password_account);
-        $checkCus = DB::table('tbl_customer')->where('customer_email', $email_account)->where('customer_password', $password)->first();
-
+        $checkCus = Product::where('customer_email', $email_account)->where('customer_password', $password)->first();
         if($checkCus){
             $request->session()->put('customer_id', $checkCus->customer_id);
             return redirect()->route('checkout');
         }else{
             return redirect()->route('login-checkout');
         }
-
-
-        return redirect()->route('login-checkout');
     }
 
 
